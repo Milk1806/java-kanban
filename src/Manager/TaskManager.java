@@ -155,6 +155,7 @@ public class TaskManager {
                 if (list.get(i).getID() == subtask.getID()) {
                     list.add(i, subtask);
                     list.remove(i + 1);
+                    break;
                 }
             }
             subtasks.put(subtask.getID(), subtask);
