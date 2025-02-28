@@ -1,3 +1,5 @@
+package Manager;
+import Tasks.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -5,15 +7,15 @@ public class TaskManager {
     HashMap<Integer, Task> tasks;
     HashMap<Integer, Epic> epics;
     HashMap<Integer, Subtask> subtasks;
-    private int ID = 0;
+    private int ID;
 
-    TaskManager() {
+    public TaskManager() {
         tasks = new HashMap<>();
         epics = new HashMap<>();
         subtasks = new HashMap<>();
     }
 
-    protected int getID() {
+    public int getID() {
         return ++ID;
     }
 
@@ -60,7 +62,10 @@ public class TaskManager {
     }
 
     public void clearSubtasks () {
-       subtasks.clear();
+        for (Epic epic : epics.values()) {
+            epic.getSubtaskList().clear();
+        }
+        subtasks.clear();
     }
 
     public Task getTaskOnID (int taskID) {
