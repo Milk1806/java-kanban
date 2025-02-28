@@ -1,9 +1,9 @@
 package Tasks;
 
 public class Task {
-    private final String name;
-    private final String description;
-    private final int id;
+    private String name;
+    private String description;
+    private int id;
     private TaskStatus status;
 
     public Task(int id, String name, String description) {
