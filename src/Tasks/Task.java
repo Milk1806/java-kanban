@@ -1,14 +1,13 @@
 package Tasks;
-import Manager.TaskManager;
 
 public class Task {
-    private String name;
-    private String description;
-    private int ID;
+    private final String name;
+    private final String description;
+    private final int id;
     private TaskStatus status;
 
-    public Task(int ID, String name, String description) {
-        this.ID = ID;
+    public Task(int id, String name, String description) {
+        this.id = id;
         this.name = name;
         this.description = description;
         status = TaskStatus.NEW;
@@ -17,18 +16,18 @@ public class Task {
     public Task(String name, String description, int epicID) {
         this.name = name;
         this.description = description;
-        this.ID = epicID;
+        this.id = epicID;
     }
 
     public Task(int oldTaskID, String name, String description, TaskStatus status) {
         this.status = status;
-        ID = oldTaskID;
+        id = oldTaskID;
         this.description = description;
         this.name = name;
     }
 
     public int getID() {
-        return ID;
+        return id;
     }
 
     public String getName() {
@@ -50,7 +49,7 @@ public class Task {
     @Override
     public String toString() {
         return "Tasks.Task{" +
-                "ID=" + ID + '\'' +
+                "id=" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
