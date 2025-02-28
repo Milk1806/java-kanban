@@ -2,7 +2,7 @@ package Tasks;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    protected ArrayList<Subtask> subtaskList;
+    private ArrayList<Subtask> subtaskList;
 
     public Epic(int oldEpicID, String name, String description) {
         super(oldEpicID, name, description);
@@ -17,17 +17,13 @@ public class Epic extends Task {
         return subtaskList;
     }
 
-    public void setStatus(TaskStatus status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "Tasks.Epic{" +
-                "ID=" + ID + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
+                "ID=" + getID() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", status=" + getStatus() +
                 ", subtaskList=" + subtaskList +
                 '}';
     }

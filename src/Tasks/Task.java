@@ -2,10 +2,10 @@ package Tasks;
 import Manager.TaskManager;
 
 public class Task {
-    protected String name;
-    protected String description;
-    protected int ID;
-    TaskStatus status;
+    private String name;
+    private String description;
+    private int ID;
+    private TaskStatus status;
 
     public Task(int ID, String name, String description) {
         this.ID = ID;
@@ -29,6 +29,22 @@ public class Task {
 
     public int getID() {
         return ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override

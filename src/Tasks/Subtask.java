@@ -17,18 +17,14 @@ public class Subtask extends Task {
         return epicID;
     }
 
-    public TaskStatus getStatus() {
-        return status;
-    }
-
     @Override
     public String toString() {
         return "Tasks.Subtask{" +
-                "ID=" + ID + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                "ID=" + getID() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", description='" + getDescription() + '\'' +
                 ", epicID='" + epicID + '\'' +
-                ", status=" + status +
+                ", status=" + getStatus() +
                 '}';
     }
 }
