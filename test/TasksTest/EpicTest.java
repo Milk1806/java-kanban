@@ -3,10 +3,7 @@ package TasksTest;
 import Manager.Managers;
 import Manager.TaskManager;
 import Tasks.Epic;
-import Tasks.Subtask;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
