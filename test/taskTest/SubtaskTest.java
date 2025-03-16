@@ -1,9 +1,9 @@
-package TasksTest;
+package taskTest;
 
-import Manager.Managers;
-import Manager.TaskManager;
-import Tasks.Epic;
-import Tasks.Subtask;
+import manager.Managers;
+import manager.TaskManager;
+import task.Epic;
+import task.Subtask;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

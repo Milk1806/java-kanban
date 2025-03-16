@@ -1,6 +1,6 @@
-package Manager;
+package manager;
 
-import Tasks.Task;
+import task.Task;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +24,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        if (!tasksHistory.isEmpty()) {
-            return tasksHistory;
-        } else {
-            return null;
-        }
+        return tasksHistory;
     }
 }

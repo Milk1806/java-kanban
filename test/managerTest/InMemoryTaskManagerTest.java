@@ -1,8 +1,8 @@
-package ManagerTest;
+package managerTest;
 
-import Manager.Managers;
-import Manager.TaskManager;
-import Tasks.*;
+import manager.Managers;
+import manager.TaskManager;
+import task.*;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +24,14 @@ class InMemoryTaskManagerTest {
     void addTask() {
         Task task = new Task(manager.getNewID(), "1", "1");
         manager.addTask(task);
-        assertEquals(task, manager.getTaskOnID(task.getID()), "Задача не добавлена");
+        assertEquals(task, manager.getTaskByld(task.getID()), "Задача не добавлена");
     }
 
     @Test
     void addEpic() {
         Epic epic = new Epic(manager.getNewID(), "1", "1");
         manager.addEpic(epic);
-        assertEquals(epic, manager.getEpicOnID(epic.getID()), "Задача не добавлена");
+        assertEquals(epic, manager.getEpicByld(epic.getID()), "Задача не добавлена");
     }
 
     @Test
@@ -39,7 +39,7 @@ class InMemoryTaskManagerTest {
         manager.addEpic(new Epic(manager.getNewID(), "1", "1"));
         Subtask subtask = new Subtask(manager.getNewID(), "111", "111", 1);
         manager.addSubtask(subtask);
-        assertEquals(subtask, manager.getSubtaskOnID(subtask.getID()), "Задача не добавлена");
+        assertEquals(subtask, manager.getSubtaskByld(subtask.getID()), "Задача не добавлена");
     }
 
     @Test
@@ -120,18 +120,18 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getTaskOnID() {
+    void getTaskByld() {
         Task task = new Task(manager.getNewID(), "1", "1");
         manager.addTask(task);
-        assertEquals(task, manager.getTaskOnID(task.getID()),
+        assertEquals(task, manager.getTaskByld(task.getID()),
                 "Задачи с необходимым id нет в списке");
     }
 
     @Test
-    void getEpicOnID() {
+    void getEpicByld() {
         Epic epic = new Epic(manager.getNewID(), "1", "1");
         manager.addEpic(epic);
-        assertEquals(epic, manager.getEpicOnID(epic.getID()),
+        assertEquals(epic, manager.getEpicByld(epic.getID()),
                 "Суперзадачи с необходимым id нет в списке");
     }
 
@@ -141,7 +141,7 @@ class InMemoryTaskManagerTest {
         manager.addEpic(epic);
         Subtask subtask = new Subtask(manager.getNewID(), "111", "111", 1);
         manager.addSubtask(subtask);
-        assertEquals(subtask, manager.getSubtaskOnID(subtask.getID()),
+        assertEquals(subtask, manager.getSubtaskByld(subtask.getID()),
                 "Подзадачи с необходимым id нет в списке");
     }
 
@@ -179,7 +179,7 @@ class InMemoryTaskManagerTest {
         Task task = new Task(manager.getNewID(), "1", "1");
         manager.addTask(task);
         manager.updateTask(new Task(1, "2", "2"));
-        assertNotEquals(task, manager.getTaskOnID(task.getID()), "Задача не обновилась");
+        assertNotEquals(task, manager.getTaskByld(task.getID()), "Задача не обновилась");
     }
 
     @Test
@@ -187,7 +187,7 @@ class InMemoryTaskManagerTest {
         Epic epic = new Epic(manager.getNewID(), "1", "1");
         manager.addEpic(epic);
         manager.updateEpic(new Epic(1, "2", "2"));
-        assertNotEquals(epic, manager.getEpicOnID(epic.getID()), "Суперзадача не обновилась");
+        assertNotEquals(epic, manager.getEpicByld(epic.getID()), "Суперзадача не обновилась");
     }
 
     @Test
@@ -198,7 +198,7 @@ class InMemoryTaskManagerTest {
         manager.addSubtask(subtask);
         manager.updateSubtask(new Subtask(2, "2", "2", 1,
                 TaskStatus.DONE));
-        assertFalse(subtask.equals(manager.getSubtaskOnID(subtask.getID()))
+        assertFalse(subtask.equals(manager.getSubtaskByld(subtask.getID()))
                 && subtask.equals(epic.getSubtaskList().getFirst()), "Подзадача не обновилась");
     }
 
@@ -206,7 +206,7 @@ class InMemoryTaskManagerTest {
     void getHistory() {
         Task task = new Task(manager.getNewID(), "1", "1");
         manager.addTask(task);
-        manager.getTaskOnID(task.getID());
+        manager.getTaskByld(task.getID());
         List <Task> expectedList = new ArrayList<>();
         expectedList.add(task);
         List <Task> actualeList = manager.getHistory();
@@ -217,7 +217,7 @@ class InMemoryTaskManagerTest {
     void newTaskEqualAddedTask() {
         Task task = new Task(manager.getNewID(), "1", "1");
         manager.addTask(task);
-        assertEquals(task, manager.getTaskOnID(task.getID()));
+        assertEquals(task, manager.getTaskByld(task.getID()));
     }
 
     @Test

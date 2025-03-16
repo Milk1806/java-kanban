@@ -1,8 +1,8 @@
-package Manager;
+package manager;
 
-import Tasks.Epic;
-import Tasks.Subtask;
-import Tasks.Task;
+import task.Epic;
+import task.Subtask;
+import task.Task;
 import java.util.List;
 import java.util.Map;
 
@@ -29,11 +29,11 @@ public interface TaskManager {
 
     void clearSubtasks();
 
-    Task getTaskOnID(int taskID);
+    Task getTaskByld(int taskID);
 
-    Epic getEpicOnID(int epicID);
+    Epic getEpicByld(int epicID);
 
-    Subtask getSubtaskOnID(int subtaskID);
+    Subtask getSubtaskByld(int subtaskID);
 
     void removeTaskOnID(int taskID);
 
