@@ -1,4 +1,5 @@
 package manager;
+
 import task.*;
 
 import java.util.ArrayList;
@@ -104,10 +105,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Subtask getSubtaskByld(int subtaskID) {
-        if (subtasks.containsKey(subtaskID)){
+        if (subtasks.containsKey(subtaskID)) {
             historyManager.add(subtasks.get(subtaskID));
         }
-       return subtasks.getOrDefault(subtaskID, null);
+        return subtasks.getOrDefault(subtaskID, null);
     }
 
     @Override
