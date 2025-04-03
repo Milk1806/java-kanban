@@ -77,14 +77,14 @@ public class InMemoryHistoryManager implements HistoryManager {
             first = next;
         } else {
             prev.next = next;
-            next.prev = prev;
+            node.prev = null;
         }
 
         if (next == null) {
             last = prev;
         } else {
             next.prev = prev;
-            prev.next = next;
+            node.next = null;
         }
         map.remove(node.task.getID());
     }
