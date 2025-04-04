@@ -149,6 +149,7 @@ class InMemoryTaskManagerTest {
     void removeTaskOnID() {
         Task task = new Task(manager.getNewID(), "1", "1");
         manager.addTask(task);
+        manager.getTaskByld(1);
         manager.removeTaskOnID(task.getID());
         assertFalse(manager.getTasks().containsKey(task.getID()),
                 "Задача не была удалена из списка");
@@ -158,6 +159,7 @@ class InMemoryTaskManagerTest {
     void removeEpicOnID() {
         Epic epic = new Epic(manager.getNewID(), "1", "1");
         manager.addEpic(epic);
+        manager.getEpicByld(1);
         manager.removeEpicOnID(epic.getID());
         assertFalse(manager.getEpics().containsKey(epic.getID()), "Суперзадача не была удалена");
     }
@@ -168,6 +170,8 @@ class InMemoryTaskManagerTest {
         manager.addEpic(epic);
         Subtask subtask = new Subtask(manager.getNewID(), "111", "111", 1);
         manager.addSubtask(subtask);
+        manager.getEpicByld(1);
+        manager.getSubtaskByld(2);
         manager.removeSubtaskOnID(subtask.getID());
         assertFalse(manager.getSubtasks().containsKey(subtask.getID())
                 && epic.getSubtaskList().contains(subtask),

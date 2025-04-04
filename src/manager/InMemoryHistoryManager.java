@@ -33,9 +33,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        if (map.containsKey(id)) {
-            map.remove(id);
-        }
+        removeNode(map.get(id));
     }
 
     class Node<T> {
@@ -45,8 +43,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         public Node(Node<T> prev, T task, Node<T> next) {
             this.task = task;
-            next = null;
-            prev = null;
         }
     }
 
