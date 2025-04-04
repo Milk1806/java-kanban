@@ -6,13 +6,11 @@ import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private List<Task> tasksHistory;
     private Map<Integer, Node<Task>> map;
     private Node<Task> first;
     private Node<Task> last;
 
     public InMemoryHistoryManager() {
-        tasksHistory = new ArrayList<>();
         map = new LinkedHashMap<>();
     }
 
@@ -26,9 +24,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        tasksHistory.clear();
-        getTasks();
-        return tasksHistory;
+        return getTasks();
     }
 
     @Override
@@ -61,8 +57,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     }
 
-    void getTasks() {
-        map.forEach((integer, taskNode) -> tasksHistory.add(taskNode.task));
+    List<Task> getTasks() {
+        List<Task> list = new ArrayList<>();
+        map.forEach((integer, taskNode) -> list.add(taskNode.task));
+        return list;
     }
 
     void removeNode(Node<Task> node) {
