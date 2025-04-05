@@ -17,6 +17,8 @@ public class Main {
         manager.addSubtask(new Subtask(manager.getNewID(), "3-3-3", "3-3-3", 3));
         manager.addSubtask(new Subtask(manager.getNewID(), "3^3^3", "3^3^3", 3));
 
+
+
         manager.getTaskByld(1);
         System.out.println(manager.getHistory());
         System.out.println("-".repeat(150));

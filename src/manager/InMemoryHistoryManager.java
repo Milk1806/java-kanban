@@ -90,6 +90,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             node.next = null;
         }
         map.remove(node.task.getID());
+        node.task = null;
     }
 }
 
