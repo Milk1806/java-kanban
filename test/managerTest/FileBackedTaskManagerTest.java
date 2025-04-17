@@ -39,7 +39,7 @@ class FileBackedTaskManagerTest {
             throw new RuntimeException(e);
         }
         file = FileBackedTaskManager.loadFromFile(tempFile);
-        assertEquals(file.getTasks().size(), 2);
+        assertEquals(2, file.getTasks().size());
     }
 
     @Test

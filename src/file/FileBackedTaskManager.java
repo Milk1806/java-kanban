@@ -37,22 +37,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public String toString(Task task) {
-        String typeOfTask = null;
+        String typeOfTask;
 
         switch (task) {
             case Epic epic -> {
                 typeOfTask = String.valueOf(TypesOfTask.EPIC);
-                return String.valueOf(task.getID()) + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
+                return task.getID() + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
                         "," + task.getDescription() + "\n";
             }
             case Subtask subtask -> {
                 typeOfTask = String.valueOf(TypesOfTask.SUBTASK);
-                return String.valueOf(task.getID()) + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
-                        "," + task.getDescription() + "," + String.valueOf(subtask.getEpicId()) + "\n";
+                return task.getID() + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
+                        "," + task.getDescription() + "," + subtask.getEpicId() + "\n";
             }
             case Task task1 -> {
                 typeOfTask = String.valueOf(TypesOfTask.TASK);
-                return String.valueOf(task.getID()) + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
+                return task.getID() + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
                         "," + task.getDescription() + "\n";
             }
         }
