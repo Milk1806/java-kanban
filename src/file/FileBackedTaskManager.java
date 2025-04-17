@@ -12,7 +12,7 @@ import java.util.List;
 public class FileBackedTaskManager extends InMemoryTaskManager {
     static Path path;
 
-    public FileBackedTaskManager(){
+    public FileBackedTaskManager() {
         super();
             path = Paths.get("autosave.csv");
     }
@@ -98,7 +98,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return fileBacked;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         FileBackedTaskManager file = new FileBackedTaskManager();
         file.addTask(new Task(file.getNewID(), "@@@", "@@@"));
         file.addTask(new Task(file.getNewID(), "%%%", "%%%"));
