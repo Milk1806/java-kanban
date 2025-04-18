@@ -10,11 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    static Path path;
+    private Path path;
 
     public FileBackedTaskManager() {
         super();
             path = Paths.get("autosave.csv");
+    }
+
+    public Path getPath() {
+        return path;
     }
 
     public void save() {
@@ -23,7 +27,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             allTasksList.addAll(epics.values());
             allTasksList.addAll(subtasks.values());
 
-        try (Writer writer = new FileWriter("autosave.csv")) {
+        try (Writer writer = new FileWriter(path.toFile())) {
+            writer.write("id,type,name,status,description,epic\n");
             for (Task task : allTasksList) {
                 String str = toString(task);
                 if (str == null) {
@@ -50,7 +55,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 return task.getID() + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
                         "," + task.getDescription() + "," + subtask.getEpicId() + "\n";
             }
-            case Task task1 -> {
+            default -> {
                 typeOfTask = String.valueOf(TypesOfTask.TASK);
                 return task.getID() + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
                         "," + task.getDescription() + "\n";
@@ -88,7 +93,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 } else if (task instanceof Subtask subtask) {
                     fileBacked.subtasks.put(task.getID(), subtask);
                     fileBacked.epics.get(subtask.getEpicId()).addSubtask(subtask);
-                } else {
+                } else if (task instanceof Task) {
                     fileBacked.tasks.put(task.getID(), task);
                 }
             }
@@ -99,20 +104,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static void main(String[] args) {
-        FileBackedTaskManager file = new FileBackedTaskManager();
-        file.addTask(new Task(file.getNewID(), "@@@", "@@@"));
-        file.addTask(new Task(file.getNewID(), "%%%", "%%%"));
-        file.addEpic(new Epic(file.getNewID(), "&&&", "&&&"));
-        file.addSubtask(new Subtask(file.getNewID(), "&&&&&&&", "&&&&&&&", 3));
-        file.updateTask(new Task(1, "@_@_@_@_", "@_@_@_@", TaskStatus.DONE));
-        file.removeTaskOnID(1);
-        file.removeSubtaskOnID(4);
+//        FileBackedTaskManager file = new FileBackedTaskManager();
+//        file.addTask(new Task(file.getNewID(), "@@@", "@@@"));
+//        file.addTask(new Task(file.getNewID(), "%%%", "%%%"));
+//        file.addEpic(new Epic(file.getNewID(), "&&&", "&&&"));
+//        file.addSubtask(new Subtask(file.getNewID(), "&&&&&&&", "&&&&&&&", 3));
+//        file.updateTask(new Task(1, "@_@_@_@_", "@_@_@_@", TaskStatus.DONE));
+//        file.removeTaskOnID(1);
+//        file.removeSubtaskOnID(4);
 
-
-        file = FileBackedTaskManager.loadFromFile(Paths.get("autosave.csv").toFile());
-        System.out.println(file.getTasks());
-        System.out.println(file.getEpics());
-        System.out.println(file.getSubtasks());
+        FileBackedTaskManager file1 = FileBackedTaskManager.loadFromFile(Paths.get("autosave.csv").toFile());
+        System.out.println(file1.getTasks());
+        System.out.println(file1.getEpics());
+        System.out.println(file1.getSubtasks());
     }
 
     @Override
