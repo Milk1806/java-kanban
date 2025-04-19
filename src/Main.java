@@ -1,5 +1,5 @@
-import manager.Managers;
-import manager.TaskManager;
+import file.Managers;
+import file.TaskManager;
 import task.Epic;
 import task.Subtask;
 import task.Task;
@@ -16,8 +16,6 @@ public class Main {
         manager.addSubtask(new Subtask(manager.getNewID(), "333", "333", 3));
         manager.addSubtask(new Subtask(manager.getNewID(), "3-3-3", "3-3-3", 3));
         manager.addSubtask(new Subtask(manager.getNewID(), "3^3^3", "3^3^3", 3));
-
-
 
         manager.getTaskByld(1);
         System.out.println(manager.getHistory());
