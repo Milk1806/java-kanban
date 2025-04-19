@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private Path path;
+    private final Path path;
 
     public FileBackedTaskManager() {
         super();
-            path = Paths.get("autosave.csv");
+        path = Paths.get("autosave.csv");
     }
 
     public Path getPath() {
@@ -101,22 +101,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             throw new ManagerSaveException("Ошибка при работе с файлом");
         }
         return fileBacked;
-    }
-
-    public static void main(String[] args) {
-//        FileBackedTaskManager file = new FileBackedTaskManager();
-//        file.addTask(new Task(file.getNewID(), "@@@", "@@@"));
-//        file.addTask(new Task(file.getNewID(), "%%%", "%%%"));
-//        file.addEpic(new Epic(file.getNewID(), "&&&", "&&&"));
-//        file.addSubtask(new Subtask(file.getNewID(), "&&&&&&&", "&&&&&&&", 3));
-//        file.updateTask(new Task(1, "@_@_@_@_", "@_@_@_@", TaskStatus.DONE));
-//        file.removeTaskOnID(1);
-//        file.removeSubtaskOnID(4);
-
-        FileBackedTaskManager file1 = FileBackedTaskManager.loadFromFile(Paths.get("autosave.csv").toFile());
-        System.out.println(file1.getTasks());
-        System.out.println(file1.getEpics());
-        System.out.println(file1.getSubtasks());
     }
 
     @Override
