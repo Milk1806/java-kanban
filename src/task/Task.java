@@ -20,6 +20,15 @@ public class Task {
         status = TaskStatus.NEW;
     }
 
+    public Task(int id, String name, String description, String startTime, int minutes) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        status = TaskStatus.NEW;
+        this.startTime = LocalDateTime.parse(startTime);
+        duration = Duration.ofMinutes(minutes);
+    }
+
     public Task(int oldTaskID, String name, String description, TaskStatus status) {
         this.status = status;
         id = oldTaskID;
@@ -27,11 +36,12 @@ public class Task {
         this.name = name;
     }
 
-    public Task(int id, String name, String description, String startTime, int minutes) {
-        this.id = id;
-        this.name = name;
+    public Task(int oldTaskID, String name, String description, TaskStatus status
+            , String startTime, int minutes) {
+        this.status = status;
+        id = oldTaskID;
         this.description = description;
-        status = TaskStatus.NEW;
+        this.name = name;
         this.startTime = LocalDateTime.parse(startTime);
         duration = Duration.ofMinutes(minutes);
     }

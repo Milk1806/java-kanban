@@ -258,7 +258,7 @@ public class InMemoryTaskManager implements TaskManager {
                     .map(Optional::get)
                     .reduce(Duration::plus)
                     .orElseGet(() -> {
-                        return Duration.ofSeconds(0); // или любое другое значение по умолчанию
+                        return Duration.ofSeconds(0);
                     })
         );
         epic.setEndTime(
