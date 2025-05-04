@@ -1,72 +1,31 @@
+import file.FileBackedTaskManager;
 import file.Managers;
 import file.TaskManager;
 import task.Epic;
 import task.Subtask;
 import task.Task;
 
+import java.io.File;
+import java.nio.file.Paths;
+
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager manager = Managers.getDefault();
-
-        manager.addTask(new Task(manager.getNewID(), "1", "1"));
-        manager.addTask(new Task(manager.getNewID(), "2", "2"));
-        manager.addEpic(new Epic(manager.getNewID(), "3", "3"));
-        manager.addEpic(new Epic(manager.getNewID(), "4", "4"));
-        manager.addSubtask(new Subtask(manager.getNewID(), "333", "333", 3));
-        manager.addSubtask(new Subtask(manager.getNewID(), "3-3-3", "3-3-3", 3));
-        manager.addSubtask(new Subtask(manager.getNewID(), "3^3^3", "3^3^3", 3));
-
-        manager.getTaskByld(1);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getEpicByld(3);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getSubtaskByld(5);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getTaskByld(2);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getEpicByld(4);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getSubtaskByld(6);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getSubtaskByld(7);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getTaskByld(1);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getTaskByld(2);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getEpicByld(3);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getEpicByld(4);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getSubtaskByld(5);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getSubtaskByld(6);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-        manager.getSubtaskByld(7);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-
-        manager.removeSubtaskOnID(7);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-
-        manager.removeEpicOnID(3);
-        System.out.println(manager.getHistory());
-        System.out.println("-".repeat(150));
-
+//        FileBackedTaskManager manager = new FileBackedTaskManager();
+//        manager.addTask(new Task(manager.getNewID(), "1","1"
+//                ));
+//        manager.addEpic(new Epic(manager.getNewID(), "2","2"));
+//        manager.addSubtask(new Subtask(manager.getNewID(), "2-2-2","2-2-2",2
+//                ,"2025-05-02T12:00:00",60));
+//        manager.addSubtask(new Subtask(manager.getNewID(), "3-3-3","3-3-3",2
+//                ,"2025-05-02T18:00:00",60));
+//        manager.addSubtask(new Subtask(manager.getNewID(), "4-4-4","4-4-4",2
+//                ,"2025-05-03T21:00:00",80));
+//        manager.updateSubtask(new Subtask(5, "&&&&&&","&&&&&&",2
+//               ));
+        FileBackedTaskManager manager = FileBackedTaskManager.loadFromFile(Paths.get("autosave.csv").toFile());
+        System.out.println(manager.getTasks());
+        System.out.println(manager.getEpics());
+        System.out.println(manager.getSubtasks());
     }
 }

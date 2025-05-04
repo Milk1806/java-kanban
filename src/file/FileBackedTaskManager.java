@@ -6,6 +6,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +31,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             allTasksList.addAll(subtasks.values());
 
         try (Writer writer = new FileWriter(path.toFile())) {
-            writer.write("id,type,name,status,description,epic\n");
+            writer.write("id,type,name,status,description,epic,startTime,duration,endTime\n");
             for (Task task : allTasksList) {
                 String str = toString(task);
                 if (str == null) {
@@ -47,18 +50,25 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         switch (task) {
             case Epic epic -> {
                 typeOfTask = String.valueOf(TypesOfTask.EPIC);
-                return task.getID() + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
-                        "," + task.getDescription() + "\n";
+                return epic.getID() + "," + typeOfTask + "," + epic.getName() + "," + epic.getStatus()
+                        + "," + epic.getDescription() + "," + epic.getStartTime().orElse(null) + ","
+                        + epic.getDuration().orElse(null) + ","
+                        + epic.getEndTime().orElse(null) + "\n";
             }
             case Subtask subtask -> {
                 typeOfTask = String.valueOf(TypesOfTask.SUBTASK);
-                return task.getID() + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
-                        "," + task.getDescription() + "," + subtask.getEpicId() + "\n";
+                return subtask.getID() + "," + typeOfTask + "," + subtask.getName() + "," + subtask.getStatus()
+                        + "," + subtask.getDescription() + "," + subtask.getEpicId() + ","
+                        + subtask.getStartTime().orElse(null) + ","
+                        + subtask.getDuration().orElse(null) + ","
+                        + subtask.getEndTime().orElse(null) + "\n";
             }
             default -> {
                 typeOfTask = String.valueOf(TypesOfTask.TASK);
-                return task.getID() + "," + typeOfTask + "," + task.getName() + "," + task.getStatus() +
-                        "," + task.getDescription() + "\n";
+                return task.getID() + "," + typeOfTask + "," + task.getName() + "," + task.getStatus()
+                        + "," + task.getDescription() + "," + task.getStartTime().orElse(null) + ","
+                        + task.getDuration().orElse(null) + ","
+                        + task.getEndTime().orElse(null) + "\n";
             }
         }
     }
@@ -67,14 +77,40 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String[] taskFields = value.trim().split(",");
 
         if (taskFields[1].equals(TypesOfTask.TASK.toString())) {
-            return new Task(Integer.parseInt(taskFields[0]), taskFields[2], taskFields[4],
+            Task task = new Task(Integer.parseInt(taskFields[0]), taskFields[2], taskFields[4],
                     TaskStatus.valueOf(taskFields[3]));
+                try {
+                    task.setStartTime(LocalDateTime.parse(taskFields[5]));
+                    task.setDuration(Duration.parse(taskFields[6]));
+                } catch (DateTimeParseException e) {
+                    task.setStartTime(null);
+                    task.setDuration(null);
+                }
+            return task;
         } else if (taskFields[1].equals(TypesOfTask.EPIC.toString())) {
-            return new Epic(Integer.parseInt(taskFields[0]), taskFields[2], taskFields[4],
+            Epic epic = new Epic(Integer.parseInt(taskFields[0]), taskFields[2], taskFields[4],
                     TaskStatus.valueOf(taskFields[3]));
+                try {
+                    epic.setStartTime(LocalDateTime.parse(taskFields[5]));
+                    epic.setDuration(Duration.parse(taskFields[6]));
+                    epic.setEndTime(LocalDateTime.parse(taskFields[7]));
+                } catch (DateTimeParseException e) {
+                    epic.setStartTime(null);
+                    epic.setDuration(null);
+                    epic.setEndTime(null);
+                }
+            return epic;
         } else if (taskFields[1].equals(TypesOfTask.SUBTASK.toString())) {
-            return new Subtask(Integer.parseInt(taskFields[0]), taskFields[2], taskFields[4],
+            Subtask subtask = new Subtask(Integer.parseInt(taskFields[0]), taskFields[2], taskFields[4],
                     Integer.parseInt(taskFields[5]), TaskStatus.valueOf(taskFields[3]));
+                try {
+                    subtask.setStartTime(LocalDateTime.parse(taskFields[6]));
+                    subtask.setDuration(Duration.parse(taskFields[7]));
+                } catch (DateTimeParseException e) {
+                    subtask.setStartTime(null);
+                    subtask.setDuration(null);
+                }
+            return subtask;
         } else {
             return null;
         }

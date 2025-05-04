@@ -1,12 +1,17 @@
 package task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Task {
     private String name;
     private String description;
     private int id;
     private TaskStatus status;
+    private LocalDateTime startTime;
+    private Duration duration;
 
     public Task(int id, String name, String description) {
         this.id = id;
@@ -15,17 +20,42 @@ public class Task {
         status = TaskStatus.NEW;
     }
 
-    public Task(String name, String description, int epicID) {
-        this.name = name;
-        this.description = description;
-        this.id = epicID;
-    }
-
     public Task(int oldTaskID, String name, String description, TaskStatus status) {
         this.status = status;
         id = oldTaskID;
         this.description = description;
         this.name = name;
+    }
+
+    public Task(int id, String name, String description, String startTime, int minutes) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        status = TaskStatus.NEW;
+        this.startTime = LocalDateTime.parse(startTime);
+        duration = Duration.ofMinutes(minutes);
+    }
+
+    public Optional<LocalDateTime> getEndTime() {
+        return getStartTime()
+                .flatMap(startTime -> getDuration()
+                .map(duration -> startTime.plusMinutes(duration.toMinutes())));
+    }
+
+    public Optional<LocalDateTime> getStartTime() {
+        return Optional.ofNullable(startTime);
+    }
+
+    public Optional<Duration> getDuration() {
+        return Optional.ofNullable(duration);
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 
     public int getID() {

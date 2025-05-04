@@ -2,10 +2,9 @@ package file;
 
 import task.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     Map<Integer, Task> tasks;
@@ -41,6 +40,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epics.containsKey(subtask.getEpicId())) {
             subtasks.put(subtask.getID(), subtask);
             epics.get(subtask.getEpicId()).addSubtask(subtask);
+            updateEpicTime(epics.get(subtask.getEpicId()));
         }
     }
 
@@ -101,6 +101,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         for (Epic epic : epics.values()) {
             epic.getSubtaskList().clear();
+            updateEpicTime(epic);
         }
         subtasks.clear();
     }
@@ -167,6 +168,7 @@ public class InMemoryTaskManager implements TaskManager {
             Epic epic = epics.get(subtask.getEpicId());
             epic.getSubtaskList().remove(subtask);
             subtasks.remove(subtaskID);
+            updateEpicTime(epic);
         }
     }
 
@@ -227,12 +229,48 @@ public class InMemoryTaskManager implements TaskManager {
                 }
             }
             subtasks.put(subtask.getID(), subtask);
+            updateEpicTime(epic);
         }
     }
 
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
+    }
+
+    public void updateEpicTime(Epic epic) {
+        List<Subtask> subtaskList = epic.getSubtaskList();
+
+        epic.setStartTime(
+            subtaskList.stream()
+                    .map(Subtask::getStartTime)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .min(LocalDateTime::compareTo)
+                    .orElseGet(() -> {
+                        return null;
+                    })
+        );
+        epic.setDuration(
+            subtaskList.stream()
+                    .map(Subtask::getDuration)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .reduce(Duration::plus)
+                    .orElseGet(() -> {
+                        return Duration.ofSeconds(0); // или любое другое значение по умолчанию
+                    })
+        );
+        epic.setEndTime(
+            subtaskList.stream()
+                    .filter(s -> s.getStartTime().isPresent() && s.getDuration().isPresent())
+                    .map(Subtask::getEndTime)
+                    .map(Optional::get)
+                    .max(LocalDateTime::compareTo)
+                    .orElseGet(() -> {
+                        return null;
+                    })
+        );
     }
 }
 
