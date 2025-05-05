@@ -36,8 +36,8 @@ public class Task {
         this.name = name;
     }
 
-    public Task(int oldTaskID, String name, String description, TaskStatus status
-            , String startTime, int minutes) {
+    public Task(int oldTaskID, String name, String description, TaskStatus status,
+                String startTime, int minutes) {
         this.status = status;
         id = oldTaskID;
         this.description = description;
