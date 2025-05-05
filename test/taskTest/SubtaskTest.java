@@ -48,4 +48,14 @@ class SubtaskTest {
         assertEquals(LocalDateTime.of(2025,05,01,13,0)
                 , subtask.getEndTime().get());
     }
+
+    @Test
+    void subtaskIsInEpicSubtasksList() {
+        Epic epic = new Epic(manager.getNewID(), "1","1");
+        manager.addEpic(epic);
+        Subtask subtask = new Subtask(manager.getNewID(), "111","111",1);
+        manager.addSubtask(subtask);
+        assertEquals(subtask, epic.getSubtaskList().getFirst());
+
+    }
 }

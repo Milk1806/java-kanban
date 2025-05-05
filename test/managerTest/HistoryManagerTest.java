@@ -48,4 +48,12 @@ class HistoryManagerTest {
         int i = manager.getHistory().size();
         assertEquals(0, i);
     }
+
+    @Test
+    void emptyGetHistory() {
+        Task task = new Task(manager.getNewID(), "1", "1");
+        manager.addTask(task);
+        manager.removeTaskOnID(1);
+        assertTrue(manager.getHistory().isEmpty());
+    }
 }
