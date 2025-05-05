@@ -225,15 +225,49 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void ifChangeStatusInSubtaskStatusInEpicChangeTo() {
+    void ifBothSubtaskHaveStatusNewEpicStatusIsNewTo() {
         Epic epic = new Epic(manager.getNewID(), "1", "1");
         manager.addEpic(epic);
-        Subtask subtask = new Subtask(manager.getNewID(), "111", "111", 1);
-        manager.addSubtask(subtask);
-        manager.updateSubtask(new Subtask(2, "!!!", "!!!", 1,
-                TaskStatus.DONE));
+        manager.addSubtask(new Subtask(manager.getNewID(), "111", "111", 1));
+        manager.addSubtask(new Subtask(manager.getNewID(), "222", "222", 1));
+        manager.updateEpic(new Epic(1, "&&&", "&&&"));
+        assertEquals(TaskStatus.NEW, manager.getEpics().get(epic.getID()).getStatus());
+    }
+
+    @Test
+    void ifBothSubtaskHaveStatusDoneEpicStatusIsDoneTo() {
+        Epic epic = new Epic(manager.getNewID(), "1", "1");
+        manager.addEpic(epic);
+        manager.addSubtask(new Subtask(manager.getNewID(), "111", "111", 1));
+        manager.addSubtask(new Subtask(manager.getNewID(), "222", "222", 1));
+        manager.updateSubtask(new Subtask(2, "111","111",1,TaskStatus.DONE));
+        manager.updateSubtask(new Subtask(3, "222","222",1,TaskStatus.DONE));
         manager.updateEpic(new Epic(1, "&&&", "&&&"));
         assertEquals(TaskStatus.DONE, manager.getEpics().get(epic.getID()).getStatus());
+    }
+
+    @Test
+    void ifSubtasksHaveStatusDoneAndNewEpicStatusIsInProgress() {
+        Epic epic = new Epic(manager.getNewID(), "1", "1");
+        manager.addEpic(epic);
+        manager.addSubtask(new Subtask(manager.getNewID(), "111", "111", 1));
+        manager.addSubtask(new Subtask(manager.getNewID(), "222", "222", 1));
+        manager.updateSubtask(new Subtask(2, "111","111",1,TaskStatus.NEW));
+        manager.updateSubtask(new Subtask(3, "222","222",1,TaskStatus.DONE));
+        manager.updateEpic(new Epic(1, "&&&", "&&&"));
+        assertEquals(TaskStatus.IN_PROGRESS, manager.getEpics().get(epic.getID()).getStatus());
+    }
+
+    @Test
+    void ifBothSubtaskHaveStatusInProgressEpicStatusIsInProgressTo() {
+        Epic epic = new Epic(manager.getNewID(), "1", "1");
+        manager.addEpic(epic);
+        manager.addSubtask(new Subtask(manager.getNewID(), "111", "111", 1));
+        manager.addSubtask(new Subtask(manager.getNewID(), "222", "222", 1));
+        manager.updateSubtask(new Subtask(2, "111","111",1,TaskStatus.IN_PROGRESS));
+        manager.updateSubtask(new Subtask(3, "222","222",1,TaskStatus.IN_PROGRESS));
+        manager.updateEpic(new Epic(1, "&&&", "&&&"));
+        assertEquals(TaskStatus.IN_PROGRESS, manager.getEpics().get(epic.getID()).getStatus());
     }
 
     @Test

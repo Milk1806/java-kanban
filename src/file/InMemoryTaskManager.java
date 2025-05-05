@@ -19,8 +19,7 @@ public class InMemoryTaskManager implements TaskManager {
         epics = new HashMap<>();
         subtasks = new HashMap<>();
         historyManager = Managers.getDefaultHistory();
-        sortedTasks = new TreeSet<>((task1, task2) -> task1.getStartTime().get()
-                .compareTo(task2.getStartTime().get()));
+        sortedTasks = new TreeSet<>(Comparator.comparing(task -> task.getStartTime().get()));
     }
 
     @Override
@@ -87,11 +86,6 @@ public class InMemoryTaskManager implements TaskManager {
         list.stream()
                 .filter(task -> tasks.containsKey(task.getID()))
                 .forEach(task -> historyManager.remove(task.getID()));
-//        for (Task task : list) {
-//            if (tasks.containsKey(task.getID())) {
-//                historyManager.remove(task.getID());
-//            }
-//        }
         sortedTasks.removeIf(task -> task instanceof Task);
         tasks.clear();
     }
@@ -99,11 +93,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void clearEpics() {
         List<Task> list = historyManager.getHistory();
-        for (Task task : list) {
-            if (epics.containsKey(task.getID()) || subtasks.containsKey(task.getID())) {
-                historyManager.remove(task.getID());
-            }
-        }
+        list.stream()
+                .filter(task -> epics.containsKey(task.getID()) || subtasks.containsKey(task.getID()))
+                .forEach(task -> historyManager.remove(task.getID()));
         epics.clear();
         sortedTasks.removeIf(subtask -> subtask instanceof Subtask);
         clearSubtasks();
@@ -112,11 +104,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void clearSubtasks() {
         List<Task> list = historyManager.getHistory();
-        for (Task task : list) {
-            if (subtasks.containsKey(task.getID())) {
-                historyManager.remove(task.getID());
-            }
-        }
+        list.stream()
+                .filter(task -> subtasks.containsKey(task.getID()))
+                .forEach(task -> historyManager.remove(task.getID()));
         for (Epic epic : epics.values()) {
             epic.getSubtaskList().clear();
             updateEpicTime(epic);
@@ -216,10 +206,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epics.containsKey(epic.getID())) {
             Epic oldEpic = epics.get(epic.getID());
             List<Subtask> oldList = oldEpic.getSubtaskList();
-            for (Subtask subtask : oldList) {
-                epic.addSubtask(subtask);
-            }
-
+            oldList.stream().forEach(epic::addSubtask);
             List<Subtask> newList = epic.getSubtaskList();
             TaskStatus newStatus;
 
