@@ -48,4 +48,10 @@ public interface TaskManager {
     void updateSubtask(Subtask subtask);
 
     List<Task> getHistory();
+
+    public List<Task> getPrioritizedTasks();
+
+    public void updateEpicTime(Epic epic);
+
+    public boolean intersectionOfTasks(Task task);
 }

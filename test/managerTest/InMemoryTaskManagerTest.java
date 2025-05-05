@@ -235,4 +235,20 @@ class InMemoryTaskManagerTest {
         manager.updateEpic(new Epic(1, "&&&", "&&&"));
         assertEquals(TaskStatus.DONE, manager.getEpics().get(epic.getID()).getStatus());
     }
+
+    @Test
+    void getPrioritizedTasksIsCorrectly() {
+        manager.addTask(new Task(manager.getNewID(), "1","1","2025-05-01T12:00"
+        , 60));
+        manager.addTask(new Task(manager.getNewID(), "2","2","2025-05-02T12:00"
+                , 60));
+        manager.addEpic(new Epic(manager.getNewID(), "3","3"));
+        manager.addSubtask(new Subtask(manager.getNewID(), "3-3-3","3-3-3",3
+        , "2025-05-01T10:00",60));
+        manager.addSubtask(new Subtask(manager.getNewID(), "33-33-33","33-33-33",3
+                , "2025-05-01T10:30",60));
+        manager.removeTaskOnID(1);
+        List<Task> list = new ArrayList<>(manager.getPrioritizedTasks());
+        assertEquals(manager.getSubtaskByld(4), list.getFirst());
+    }
 }
