@@ -5,6 +5,7 @@ import task.Subtask;
 import task.Task;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface TaskManager {
     int getNewID();
@@ -21,7 +22,7 @@ public interface TaskManager {
 
     Map<Integer, Subtask> getSubtasks();
 
-    List<Subtask> getSubtasksOfEpic(int epicID);
+    Optional<List<Subtask>> getSubtasksOfEpic(int epicID);
 
     void clearTasks();
 
@@ -29,11 +30,11 @@ public interface TaskManager {
 
     void clearSubtasks();
 
-    Task getTaskByld(int taskID);
+    Optional<Task> getTaskByld(int taskID);
 
-    Epic getEpicByld(int epicID);
+    Optional<Epic> getEpicByld(int epicID);
 
-    Subtask getSubtaskByld(int subtaskID);
+    Optional<Subtask> getSubtaskByld(int subtaskID);
 
     void removeTaskOnID(int taskID);
 

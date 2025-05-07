@@ -32,14 +32,14 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void addTask() {
         Task task = new Task(manager.getNewID(), "1", "1");
         manager.addTask(task);
-        assertEquals(task, manager.getTaskByld(task.getID()), "Задача не добавлена");
+        assertEquals(task, manager.getTaskByld(task.getID()).get(), "Задача не добавлена");
     }
 
     @Test
     void addEpic() {
         Epic epic = new Epic(manager.getNewID(), "1", "1");
         manager.addEpic(epic);
-        assertEquals(epic, manager.getEpicByld(epic.getID()), "Задача не добавлена");
+        assertEquals(epic, manager.getEpicByld(epic.getID()).get(), "Задача не добавлена");
     }
 
     @Test
@@ -47,7 +47,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         manager.addEpic(new Epic(manager.getNewID(), "1", "1"));
         Subtask subtask = new Subtask(manager.getNewID(), "111", "111", 1);
         manager.addSubtask(subtask);
-        assertEquals(subtask, manager.getSubtaskByld(subtask.getID()), "Задача не добавлена");
+        assertEquals(subtask, manager.getSubtaskByld(subtask.getID()).get(), "Задача не добавлена");
     }
 
     @Test
@@ -88,7 +88,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         manager.addSubtask(subtask2);
         Subtask[] expectedSubtasksList = {subtask1, subtask2};
         Subtask[] actualSubtaskList = new Subtask[2];
-        List<Subtask> subtaskList = manager.getSubtasksOfEpic(epic.getID());
+        List<Subtask> subtaskList = manager.getSubtasksOfEpic(epic.getID()).get();
         for (int i = 0; i < subtaskList.size(); i++) {
             Subtask subtask = subtaskList.get(i);
             actualSubtaskList[i] = subtask;
@@ -131,7 +131,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void getTaskByld() {
         Task task = new Task(manager.getNewID(), "1", "1");
         manager.addTask(task);
-        assertEquals(task, manager.getTaskByld(task.getID()),
+        assertEquals(task, manager.getTaskByld(task.getID()).get(),
                 "Задачи с необходимым id нет в списке");
     }
 
@@ -141,7 +141,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         manager.addEpic(epic);
         Subtask subtask = new Subtask(manager.getNewID(), "111", "111", 1);
         manager.addSubtask(subtask);
-        assertEquals(subtask, manager.getSubtaskByld(subtask.getID()),
+        assertEquals(subtask, manager.getSubtaskByld(subtask.getID()).get(),
                 "Подзадачи с необходимым id нет в списке");
     }
 
@@ -149,7 +149,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void getEpicByld() {
         Epic epic = new Epic(manager.getNewID(), "1", "1");
         manager.addEpic(epic);
-        assertEquals(epic, manager.getEpicByld(epic.getID()),
+        assertEquals(epic, manager.getEpicByld(epic.getID()).get(),
                 "Суперзадачи с необходимым id нет в списке");
     }
 
@@ -227,14 +227,14 @@ abstract class TaskManagerTest<T extends TaskManager> {
                 , "2025-05-01T10:30",60));
         manager.removeTaskOnID(1);
         List<Task> list = new ArrayList<>(manager.getPrioritizedTasks());
-        assertEquals(manager.getSubtaskByld(4), list.getFirst());
+        assertEquals(manager.getSubtaskByld(4).get(), list.getFirst());
     }
 
     @Test
     void newTaskEqualAddedTask() {
         Task task = new Task(manager.getNewID(), "1", "1");
         manager.addTask(task);
-        assertEquals(task, manager.getTaskByld(task.getID()));
+        assertEquals(task, manager.getTaskByld(task.getID()).get());
     }
 
     @Test

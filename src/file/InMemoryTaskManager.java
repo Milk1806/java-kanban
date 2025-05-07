@@ -1,10 +1,18 @@
 package file;
 
-import task.*;
-
+import task.Epic;
+import task.Subtask;
+import task.Task;
+import task.TaskStatus;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeSet;
 
 public class InMemoryTaskManager implements TaskManager {
     Map<Integer, Task> tasks;
@@ -72,12 +80,9 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Subtask> getSubtasksOfEpic(int epicID) {
-        List<Subtask> taskListOfEpic = new ArrayList<>();
-        if (epics.containsKey(epicID)) {
-            taskListOfEpic = epics.get(epicID).getSubtaskList();
-        }
-        return taskListOfEpic;
+    public Optional<List<Subtask>> getSubtasksOfEpic(int epicID) {
+        return epics.containsKey(epicID) ? Optional.of(epics.get(epicID).getSubtaskList()) :
+                Optional.empty();
     }
 
     @Override
@@ -116,27 +121,27 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getTaskByld(int taskID) {
+    public Optional<Task> getTaskByld(int taskID) {
         if (tasks.containsKey(taskID)) {
             historyManager.add(tasks.get(taskID));
         }
-        return tasks.getOrDefault(taskID, null);
+        return Optional.ofNullable(tasks.get(taskID));
     }
 
     @Override
-    public Epic getEpicByld(int epicID) {
+    public Optional<Epic> getEpicByld(int epicID) {
         if (epics.containsKey(epicID)) {
             historyManager.add(epics.get(epicID));
         }
-        return epics.getOrDefault(epicID, null);
+        return Optional.ofNullable(epics.get(epicID));
     }
 
     @Override
-    public Subtask getSubtaskByld(int subtaskID) {
+    public Optional<Subtask> getSubtaskByld(int subtaskID) {
         if (subtasks.containsKey(subtaskID)) {
             historyManager.add(subtasks.get(subtaskID));
         }
-        return subtasks.getOrDefault(subtaskID, null);
+        return Optional.ofNullable(subtasks.get(subtaskID));
     }
 
     @Override
