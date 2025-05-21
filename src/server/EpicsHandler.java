@@ -1,5 +1,6 @@
-package file.HttpServer;
+package server;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import file.TaskManager;
 import task.Epic;
@@ -10,8 +11,8 @@ import java.nio.charset.StandardCharsets;
 
 class EpicsHandler extends BaseHttpHandler {
 
-    public EpicsHandler(TaskManager manager) {
-        super(manager);
+    public EpicsHandler(TaskManager manager, Gson gson) {
+        super(manager, gson);
     }
 
     @Override
@@ -47,7 +48,7 @@ class EpicsHandler extends BaseHttpHandler {
         } else if (array.length == 4) {
             int id = Integer.parseInt(array[2]);
             if (manager.getEpicByld(id).isPresent()) {
-                String response = gson.toJson(manager.getEpicByld(id).get().getSubtaskList());
+                String response = gson.toJson(manager.getSubtasksOfEpic(id).get());
                 sendText(exchange, response);
             } else {
                 sendNotFound(exchange, "Эпическая задача не найдена.");

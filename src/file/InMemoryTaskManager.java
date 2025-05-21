@@ -60,9 +60,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (!(idList.contains(epic.getID()))) {
             epics.put(epic.getID(), epic);
             idList.add(epic.getID());
-            if (!(epic.getSubtaskList().isEmpty())) {
-                epic.getSubtaskList().forEach(subtask -> subtasks.put(subtask.getID(), subtask));
-            }
         }
     }
 
@@ -220,7 +217,7 @@ public class InMemoryTaskManager implements TaskManager {
             boolean isValid = task.getStartTime().isEmpty() ||
                     (task.getStartTime().isPresent() && intersectionOfTasks(task));
 
-            tasks.remove(task.getID());
+            tasks.remove(oldTask.getID());
             sortedTasks.remove(oldTask);
             if (isValid) {
                 tasks.put(task.getID(), task);
@@ -241,7 +238,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epics.containsKey(epic.getID())) {
             Epic oldEpic = epics.get(epic.getID());
             List<Subtask> oldList = oldEpic.getSubtaskList();
-            oldList.stream().forEach(epic::addSubtask);
+            oldList.forEach(epic::addSubtask);
             List<Subtask> newList = epic.getSubtaskList();
             TaskStatus newStatus;
 
@@ -275,11 +272,12 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtasks.containsKey(subtask.getID())) {
             boolean subtaskIsPresent = sortedTasks.contains(subtask);
             Subtask oldSubtask = subtasks.get(subtask.getID());
-            Epic epic = epics.get(subtask.getEpicId());
+            Epic epic = epics.get(oldSubtask.getEpicId());
             boolean isValid = subtask.getStartTime().isEmpty() ||
                     (subtask.getStartTime().isPresent() && intersectionOfTasks(subtask));
-            subtasks.remove(subtask.getID());
-            sortedTasks.remove(subtasks.get(subtask.getID()));
+            sortedTasks.remove(subtasks.get(oldSubtask.getID()));
+            subtasks.remove(oldSubtask.getID());
+
 
             if (isValid) {
                 subtasks.put(subtask.getID(), subtask);
@@ -291,6 +289,7 @@ public class InMemoryTaskManager implements TaskManager {
                         break;
                     }
                 }
+                updateEpicTime(epic);
                 if (subtask.getStartTime().isPresent()) {
                     sortedTasks.add(subtask);
                 }
@@ -300,7 +299,6 @@ public class InMemoryTaskManager implements TaskManager {
                     sortedTasks.add(oldSubtask);
                 }
             }
-            updateEpicTime(epic);
         }
     }
 

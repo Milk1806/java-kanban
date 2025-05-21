@@ -1,5 +1,6 @@
-package file.HttpServer;
+package server;
 
+import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import file.TaskManager;
 import task.Subtask;
@@ -10,8 +11,8 @@ import java.nio.charset.StandardCharsets;
 
 class SubtasksHandler extends BaseHttpHandler {
 
-    public SubtasksHandler(TaskManager manager) {
-        super(manager);
+    public SubtasksHandler(TaskManager manager, Gson gson) {
+        super(manager, gson);
     }
 
     @Override
