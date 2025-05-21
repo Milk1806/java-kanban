@@ -179,9 +179,7 @@ public class InMemoryTaskManager implements TaskManager {
                 if (historyManager.getHistory().contains(subtasks.get(epicID))) {
                     historyManager.remove(subtask.getID());
                 }
-                if (sortedTasks.contains(subtask)) {
-                    sortedTasks.remove(subtask);
-                }
+                sortedTasks.remove(subtask);
                 subtasks.remove(subtask.getID());
 
             }
@@ -199,9 +197,7 @@ public class InMemoryTaskManager implements TaskManager {
                 historyManager.remove(subtaskID);
             }
             Subtask subtask = subtasks.get(subtaskID);
-            if (sortedTasks.contains(subtask)) {
-                sortedTasks.remove(subtask);
-            }
+            sortedTasks.remove(subtask);
             Epic epic = epics.get(subtask.getEpicId());
             epic.getSubtaskList().remove(subtask);
             subtasks.remove(subtaskID);
@@ -316,9 +312,7 @@ public class InMemoryTaskManager implements TaskManager {
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .min(LocalDateTime::compareTo)
-                    .orElseGet(() -> {
-                        return null;
-                    })
+                    .orElseGet(() -> null)
         );
         epic.setDuration(
             subtaskList.stream()
@@ -326,9 +320,7 @@ public class InMemoryTaskManager implements TaskManager {
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .reduce(Duration::plus)
-                    .orElseGet(() -> {
-                        return Duration.ofSeconds(0);
-                    })
+                    .orElseGet(() -> Duration.ofSeconds(0))
         );
         epic.setEndTime(
             subtaskList.stream()
@@ -336,9 +328,7 @@ public class InMemoryTaskManager implements TaskManager {
                     .map(Subtask::getEndTime)
                     .map(Optional::get)
                     .max(LocalDateTime::compareTo)
-                    .orElseGet(() -> {
-                        return null;
-                    })
+                    .orElseGet(() -> null)
         );
     }
 

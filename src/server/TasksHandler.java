@@ -8,7 +8,6 @@ import task.Task;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 class TasksHandler extends BaseHttpHandler {
 
