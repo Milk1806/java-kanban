@@ -86,6 +86,22 @@ class EpicsHandlerTest {
     }
 
     @Test
+    public void addEpic() throws IOException, InterruptedException {
+        Epic epic = new Epic(manager.getNewID(), "111","1");
+        String taskJson = gson.toJson(epic);
+        HttpClient client = HttpClient.newHttpClient();
+        URI url = URI.create("http://localhost:8080/epics");
+        HttpRequest request = HttpRequest.newBuilder().uri(url)
+                .POST(HttpRequest.BodyPublishers.ofString(taskJson)).build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(201, response.statusCode());
+        Map<Integer, Epic> epicsFromManager = manager.getEpics();
+        assertNotNull(epicsFromManager, "Задачи не возвращаются");
+        assertEquals(1, epicsFromManager.size(), "Некорректное количество задач");
+        assertEquals("111", epicsFromManager.get(epic.getID()).getName(), "Некорректное имя задачи");
+    }
+
+    @Test
     public void deleteEpic() throws IOException, InterruptedException {
         Epic epic = new Epic(manager.getNewID(), "1","1");
         manager.addEpic(epic);

@@ -14,11 +14,15 @@ class HistoryHandler extends BaseHttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if (!(manager.getHistory().isEmpty())) {
-            String response = gson.toJson(manager.getHistory());
-            sendText(exchange, response);
-        } else {
-            sendNotFound(exchange, "История просмотров пуста.");
+        try {
+            if (!(manager.getHistory().isEmpty())) {
+                String response = gson.toJson(manager.getHistory());
+                sendText(exchange, response);
+            } else {
+                sendNotFound(exchange, "История просмотров пуста.");
+            }
+        } catch (Exception e) {
+            sendInternalServerError(exchange);
         }
     }
 }

@@ -50,4 +50,20 @@ public abstract class BaseHttpHandler implements HttpHandler {
             outputStream.write(text.getBytes());
         }
     }
+
+    protected void sendInternalServerError(HttpExchange exchange) throws IOException {
+        String text = "Ошибка на стороне сервера. Попробуйте позже.";
+        exchange.sendResponseHeaders(500, 0);
+        try (OutputStream outputStream = exchange.getResponseBody()) {
+            outputStream.write(text.getBytes());
+        }
+    }
+
+    protected void sendBadRequest(HttpExchange exchange) throws IOException {
+        String text = "Ошибка синтаксиса JSON.";
+        exchange.sendResponseHeaders(400, 0);
+        try (OutputStream outputStream = exchange.getResponseBody()) {
+            outputStream.write(text.getBytes());
+        }
+    }
 }

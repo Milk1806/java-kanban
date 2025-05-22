@@ -14,11 +14,15 @@ class PrioritizedHandler extends BaseHttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String response = gson.toJson(manager.getPrioritizedTasks());
-        if (response.isEmpty()) {
-            sendNotFound(exchange, "Список отсортированных задач по времени выполнения пуст.");
-        } else {
-            sendText(exchange, response);
+        try {
+            String response = gson.toJson(manager.getPrioritizedTasks());
+            if (response.isEmpty()) {
+                sendNotFound(exchange, "Список отсортированных задач по времени выполнения пуст.");
+            } else {
+                sendText(exchange, response);
+            }
+        } catch (Exception e) {
+            sendInternalServerError(exchange);
         }
     }
 }
