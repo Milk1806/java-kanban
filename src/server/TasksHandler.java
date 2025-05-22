@@ -89,7 +89,7 @@ class TasksHandler extends BaseHttpHandler {
             if (manager.getTasks().containsKey(id)) {
                 manager.removeTaskOnID(id);
                 sendText(exchange, "Задача удалена.");
-            } else if (!(manager.getTasks().containsKey(id))){
+            } else if (!(manager.getTasks().containsKey(id))) {
                 sendNotFound(exchange, "Задача не найдена.");
             }
         } catch (Exception e) {
