@@ -55,4 +55,6 @@ public interface TaskManager {
     public void updateEpicTime(Epic epic);
 
     public boolean intersectionOfTasks(Task task);
+
+    public List<Integer> getIdList();
 }
